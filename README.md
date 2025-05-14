@@ -1,1 +1,74 @@
 # military-time-app
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Military Time App</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .container {
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+      display: inline-block;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .time-display {
+      font-size: 2em;
+      margin: 20px 0;
+      font-family: monospace;
+      color: #00ffcc;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #bbbbbb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Military Time Web App</h1>
+
+    <div class="label">UTC Time</div>
+    <div id="utcTime" class="time-display"></div>
+
+    <div class="label">Local Time</div>
+    <div id="localTime" class="time-display"></div>
+  </div>
+
+  <script>
+    function formatMilitaryTime(date, useUTC = false) {
+      const year = useUTC ? date.getUTCFullYear() : date.getFullYear();
+      const month = String(useUTC ? date.getUTCMonth() + 1 : date.getMonth() + 1).padStart(2, '0');
+      const day = String(useUTC ? date.getUTCDate() : date.getDate()).padStart(2, '0');
+      const hours = String(useUTC ? date.getUTCHours() : date.getHours()).padStart(2, '0');
+      const minutes = String(useUTC ? date.getUTCMinutes() : date.getMinutes()).padStart(2, '0');
+
+      return `${year}${month}${day} ${hours}${minutes}Z`;
+    }
+
+    function updateTime() {
+      const now = new Date();
+      document.getElementById('utcTime').textContent = formatMilitaryTime(now, true);
+      document.getElementById('localTime').textContent = formatMilitaryTime(now, false);
+    }
+
+    setInterval(updateTime, 1000); // Update every second
+    updateTime(); // Initial call
+  </script>
+</body>
+</html>
